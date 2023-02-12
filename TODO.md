@@ -1,0 +1,4 @@
+-[] Salvar arquivos localmente  
+-[] Criar versão para o AZ Functions  
+-[] Transformar os dados  
+-[] Analisar o dados  
