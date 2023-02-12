@@ -1,4 +1,5 @@
 import requests
+import logging
 
 
 class Extractor:
@@ -29,6 +30,8 @@ class Extractor:
         return [tuple(cookie.split("=", 1)) for cookie in cookies]
 
     def job_details(self, job_id):
+        logging.info(f"Extracting job details for job id {job_id}...")
+
         max_attempts = 3
 
         while max_attempts > 0:
