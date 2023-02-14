@@ -33,14 +33,14 @@ class Extractor:
         logging.info(f"Extracting job details for job id {job_id}...")
 
         max_attempts = 3
-
         while max_attempts > 0:
-            response = self._session.get(self.url + job_id)
 
             try:
+                response = self._session.get(self.url + job_id)
                 data = response.json()
                 break
-            except:
+            except Exception as e:
+                logging.error(f"Error while extracting job details for job id {job_id}: {e} retrying...")
                 max_attempts -= 1
 
         return data
