@@ -47,6 +47,7 @@ def get_jobs_details(jobs_ids):
     logging.info("Extracting jobs details...")
 
     global jobs_details
+    
     max_calls = int(os.getenv("MAX_CALLS")) if os.getenv("MAX_CALLS") else 1
     sleep_time = int(os.getenv("SLEEP_TIME")) if os.getenv("SLEEP_TIME") else 60
     extract = Extractor(os.getenv("COOKIES"), os.getenv("CSRF_TOKEN"))
@@ -55,13 +56,17 @@ def get_jobs_details(jobs_ids):
     for job_id in jobs_ids:
         with rate_limiter:
             jobs_details.append(extract.job_details(job_id))
-    return True
+    return jobs_details
 
 
 def main():
     jobs_ids = get_jobs_ids()
+
+    if not jobs_ids:
+        logging.warning("No jobs found!")
+
     jobs_datails = get_jobs_details(jobs_ids)
-    logging.info("Done!")
+    logging.info(f"Done! {len(jobs_datails)} jobs details extracted!")
 
 
 main()

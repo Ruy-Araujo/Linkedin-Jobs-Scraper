@@ -1,5 +1,6 @@
 import requests
 import logging
+from datetime import datetime
 
 
 class Extractor:
@@ -38,9 +39,8 @@ class Extractor:
             try:
                 response = self._session.get(self.url + job_id)
                 data = response.json()
-                break
+                return data.update({"extracted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
             except Exception as e:
                 logging.error(f"Error while extracting job details for job id {job_id}: {e} retrying...")
                 max_attempts -= 1
-
-        return data
+        return None
