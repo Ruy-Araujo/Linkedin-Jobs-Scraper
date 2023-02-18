@@ -9,3 +9,4 @@ data/*
 .env
 .venv
 test_area.ipynb
+old
