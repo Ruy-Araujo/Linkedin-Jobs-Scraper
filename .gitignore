@@ -1,12 +1,4 @@
-# Cache files
-__pycache__
-
-# Output files
-data/*
-
-
-# Local variables
-.env
 .venv
-test_area.ipynb
-old
+.vscode
+__pycache__
+tmp/
