@@ -1,72 +1,54 @@
-import logging
-import os
-import time
-from dotenv import load_dotenv
-from ratelimiter import RateLimiter
+import uuid
+import json
 
-from app.scraper import Scraper
-from app.extractor import Extractor
-from app.utils import append_data
+from scrapy.crawler import CrawlerRunner
+from scrapy.utils.project import get_project_settings
+from scrapy.utils.log import configure_logging
+from twisted.internet import task
 
-load_dotenv()
-logging.basicConfig(level=logging.INFO)
-jobs_details = []
+from linkedin_jobs_scraper.spiders.jobs import JobsScraper
+from linkedin_jobs_scraper.spiders.jobs_infos import JobsInfosScraper
 
-logging.info("Starting application...")
+base_settings = {
+    "FEED_FORMAT": "json",
+    "FEED_EXPORTERS": {
+        "json": "scrapy.exporters.JsonItemExporter",
+    },
+}
 
-
-def limited(until):
-    duration = int(round(until - time.time()))
-    logging.info('Rate limited, sleeping for {:d} seconds'.format(duration))
-    append_data(os.getenv("FILE_PATH"), os.getenv("FILE_NAME"), jobs_details)
+configure_logging()
 
 
-def get_jobs_ids():
-    logging.info("Scraping jobs ids...")
-
-    page = 0
-    jobs_ids = []
-    scrap = Scraper(
-        os.getenv("QUERY"),
-        os.getenv("LOCATION"))
-
-    while len(jobs_ids) <= int(os.getenv("MAX_RESULTS")):
-        results = scrap.search_jobs(page)
-        jobs = scrap.parse_response(results)
-
-        if not jobs:
-            break
-
-        jobs_ids.extend(jobs)
-        page += 1
-
-    return jobs_ids
+def get_ids(pipeline):
+    settings = get_project_settings()
+    settings.update({**base_settings, "FEED_URI": f"tmp/{pipeline}.json"})
+    return settings
 
 
-def get_jobs_details(jobs_ids):
-    logging.info("Extracting jobs details...")
+def get_infos(result, runner):
+    settings = get_project_settings()
+    location = settings.get("LOCATION")
+    keywords = settings.get("KEYWORDS")
+    runner.settings.update({**base_settings,
+                            "FEED_URI": f"data/{location}/{keywords}/%(time)s_jobs_data.json"})
 
-    global jobs_details
-    
-    max_calls = int(os.getenv("MAX_CALLS")) if os.getenv("MAX_CALLS") else 1
-    sleep_time = int(os.getenv("SLEEP_TIME")) if os.getenv("SLEEP_TIME") else 60
-    extract = Extractor(os.getenv("COOKIES"), os.getenv("CSRF_TOKEN"))
-    rate_limiter = RateLimiter(max_calls=max_calls, period=sleep_time, callback=limited)
-
-    for job_id in jobs_ids:
-        with rate_limiter:
-            jobs_details.append(extract.job_details(job_id))
-    return jobs_details
+    return runner.crawl(JobsInfosScraper, jobs_ids=result)
 
 
-def main():
-    jobs_ids = get_jobs_ids()
+def load_ids(_, pipeline):
+    with open(f"tmp/{pipeline}.json", "r") as file:
+        file = json.load(file)
 
-    if not jobs_ids:
-        logging.warning("No jobs found!")
-
-    jobs_datails = get_jobs_details(jobs_ids)
-    logging.info(f"Done! {len(jobs_datails)} jobs details extracted!")
+    return [item["job_id"] for item in file]
 
 
-main()
+def main(reactor):
+    pipeline_id = str(uuid.uuid4())
+    runner = CrawlerRunner(get_ids(pipeline_id))
+    d = runner.crawl(JobsScraper)
+    d.addCallback(load_ids, pipeline_id)
+    d.addCallback(get_infos, runner)
+    return d
+
+
+task.react(main)
