@@ -38,3 +38,4 @@ CSRF_TOKEN = 'your_csrf_token'
 # Search parameters
 KEYWORDS = 'Data Engineer'
 LOCATION = 'Canada'
+PAST_DAYS = 1
