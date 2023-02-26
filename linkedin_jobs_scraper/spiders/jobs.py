@@ -16,10 +16,10 @@ class JobsScraper(scrapy.Spider):
     def start_requests(self):
 
         self.params = {
-            "trk": "public_jobs_jobs-search-bar_search-submit",
             "start": 1,
             "keywords": self.settings.get("KEYWORDS"),
             "location": self.settings.get("LOCATION"),
+            "f_TPR": self._days_to_seconds(self.settings.get("PAST_DAYS", 1)),
         }
 
         yield scrapy.Request(url=self.url+urlencode(self.params), callback=self.parse)
@@ -42,3 +42,6 @@ class JobsScraper(scrapy.Spider):
         # Paginate
         self.params["start"] += 25
         yield response.follow(url=self.url+urlencode(self.params), callback=self.parse)
+
+    def _days_to_seconds(self, days):
+        return f"r{int(days) * 86400}"
