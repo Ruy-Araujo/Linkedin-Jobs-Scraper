@@ -5,7 +5,7 @@ Este repositório contém um scraper de empregos do LinkedIn escrito em Python q
 ## Como usar
 1. Clone o repositório para a sua máquina local:
     ```bash
-    git clone https://github.com/seu-usuario/nome-do-repositorio.git
+    git clone https://github.com/Ruy-Araujo/Linkedin-Jobs-Scraper
     ```
 2. Instale as dependências:
     ```bash
