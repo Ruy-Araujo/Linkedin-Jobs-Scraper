@@ -13,7 +13,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 60/40.0
+DOWNLOAD_DELAY = 60/15.0
 RANDOMIZE_DOWNLOAD_DELAY = False
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 10
@@ -32,10 +32,10 @@ TWISTED_REACTOR = "twisted.internet.epollreactor.EPollReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Custom Settings
-LINKEDIN_COOKIES = 'your_cookies'
-CSRF_TOKEN = 'your_csrf_token'
+LINKEDIN_COOKIES = '***REMOVED***'
+CSRF_TOKEN = '***REMOVED***'
 
 # Search parameters
 KEYWORDS = 'Data Engineer'
 LOCATION = 'Canada'
-PAST_DAYS = 1
+PAST_DAYS = 7
