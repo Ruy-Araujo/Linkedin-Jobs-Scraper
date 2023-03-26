@@ -32,8 +32,8 @@ TWISTED_REACTOR = "twisted.internet.epollreactor.EPollReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Custom Settings
-LINKEDIN_COOKIES = '***REMOVED***'
-CSRF_TOKEN = '***REMOVED***'
+LINKEDIN_COOKIES = 'your_cookies'
+CSRF_TOKEN = 'your_csrf_token'
 
 # Search parameters
 KEYWORDS = 'Data Engineer'
