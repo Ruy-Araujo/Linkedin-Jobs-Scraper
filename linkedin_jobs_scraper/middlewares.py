@@ -7,6 +7,7 @@ from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
+import time
 
 
 class LinkedinJobsScraperSpiderMiddleware:
@@ -68,16 +69,18 @@ class LinkedinJobsScraperDownloaderMiddleware:
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
-    def process_request(self, request, spider):
-        # Called for each request that goes through the downloader
-        # middleware.
+    def request_scheduled(self, request, spider):
+        request.meta.setdefault('_scheduled_time', time.time())
 
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
+    def process_request(self, request, spider):
+        scheduled_time = request.meta.get('_scheduled_time')
+        per_request_delay = request.meta.get('per_request_delay')
+        if not scheduled_time or not per_request_delay:
+            return
+        if scheduled_time + per_request_delay < time.time():
+            request.priority += -1
+            return request
+
         return None
 
     def process_response(self, request, response, spider):

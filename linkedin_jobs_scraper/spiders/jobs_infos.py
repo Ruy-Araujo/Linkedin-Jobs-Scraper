@@ -1,7 +1,13 @@
 from datetime import datetime
+import time
 
 import scrapy
 from scrapy.loader import ItemLoader
+from scrapy.spidermiddlewares.httperror import HttpError
+from scrapy.utils.project import get_project_settings
+from scrapy.utils.response import response_status_message
+from twisted.internet.error import DNSLookupError, TimeoutError, TCPTimedOutError
+
 from linkedin_jobs_scraper.items.jobs_infos import JobsInfosItem
 
 
@@ -24,9 +30,6 @@ class JobsInfosScraper(scrapy.Spider):
             yield scrapy.Request(url=self.url + id, callback=self.parse, cookies=self.cookies, headers=self.headers)
 
     def parse(self, response):
-        if response.status != 200:
-            self.logger.error(response.text)
-
         json_response = response.json()
 
         item = ItemLoader(item=JobsInfosItem())
