@@ -7,3 +7,6 @@ class JobsInfosItem(Item):
     data = Field(output_processor=TakeFirst())
     extracted_at = Field(output_processor=TakeFirst())
 
+
+def __repr__(self):
+    return repr("scraped job_id" + self["job_id"])

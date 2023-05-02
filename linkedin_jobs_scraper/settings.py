@@ -10,6 +10,13 @@ ROBOTSTXT_OBEY = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
 
+# Retry policy
+RETRY_ENABLED = True
+RETRY_TIMES = 2  # initial response + 2 retries = 3 requests
+RETRY_WAIT_TIME = 60
+RETRY_HTTP_CODES = [400]
+RETRY_PRIORITY_ADJUST = -1
+
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
@@ -22,7 +29,7 @@ CONCURRENT_REQUESTS_PER_IP = 15
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
     "Accept": "*/*",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
 }
 
 # Set settings whose default value is deprecated to a future-proof value
@@ -38,4 +45,4 @@ CSRF_TOKEN = 'your_csrf_token'
 # Search parameters
 KEYWORDS = 'Data Engineer'
 LOCATION = 'Canada'
-PAST_DAYS = 7
+PAST_DAYS = 1
