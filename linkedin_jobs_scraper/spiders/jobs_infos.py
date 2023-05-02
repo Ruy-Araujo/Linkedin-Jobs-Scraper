@@ -1,14 +1,7 @@
 from datetime import datetime
-import time
-
 import scrapy
 from scrapy.loader import ItemLoader
 from scrapy.exceptions import CloseSpider
-from scrapy.spidermiddlewares.httperror import HttpError
-from scrapy.utils.project import get_project_settings
-from scrapy.utils.response import response_status_message
-from twisted.internet.error import DNSLookupError, TimeoutError, TCPTimedOutError
-
 from linkedin_jobs_scraper.items.jobs_infos import JobsInfosItem
 
 
