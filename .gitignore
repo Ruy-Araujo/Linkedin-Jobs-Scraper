@@ -1,4 +1,8 @@
+# Environment variables
 .venv
+.env
+
+# Unessesary files
 .vscode
 __pycache__
 tmp/

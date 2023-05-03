@@ -1,3 +1,8 @@
+import os
+import dotenv
+
+dotenv.load_dotenv()
+
 # Scrapy settings for linkedin_jobs_scraper project
 BOT_NAME = "linkedin_jobs_scraper"
 
@@ -39,8 +44,8 @@ TWISTED_REACTOR = "twisted.internet.epollreactor.EPollReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Custom Settings
-LINKEDIN_COOKIES = 'your_cookies'
-CSRF_TOKEN = 'your_csrf_token'
+LINKEDIN_COOKIES = os.getenv("LINKEDIN_COOKIES")
+CSRF_TOKEN = os.getenv("CSRF_TOKEN")
 
 # Search parameters
 KEYWORDS = 'Data Engineer'
