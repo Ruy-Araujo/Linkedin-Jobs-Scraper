@@ -37,4 +37,4 @@ class JobsInfosScraper(scrapy.Spider):
         if not next_job:
             raise CloseSpider("No more results, scrapy stoped...")
 
-        yield response.follow(url=self.url + next_job, callback=self.parse, cookies=self.cookies, headers=self.headers)
+        yield response.follow(url=self.url + next_job, callback=self.parse, cookies=self.cookies, headers=self.headers, dont_filter=True)
