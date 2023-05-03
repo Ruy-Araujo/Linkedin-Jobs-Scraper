@@ -19,7 +19,7 @@ Este repositório contém um scraper de empregos do LinkedIn escrito em Python q
     pip install -r requirements.txt
     ```
 
-3. Configure o arquivo settings.py:  
+3. Configure o arquivo exemple.env:  
 
     1. Preencha os parametros _LINKEDIN_COOKIES_ e _CSRF_TOKEN_ com os da plataforma vide [como gerar os cookies e o csrf-token](#cookies)
 

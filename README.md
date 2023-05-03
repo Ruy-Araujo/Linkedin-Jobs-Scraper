@@ -19,7 +19,7 @@ This repository contains a LinkedIn jobs scraper written in Python that extracts
     pip install -r requirements.txt
 ```
 
-3. Configure the settings.py file:
+3. Configure the exemple.env file:
 
     1. Fill in the *LINKEDIN_COOKIES* and *CSRF_TOKEN* parameters with those from the platform see [how to generate cookies and csrf-token](#cookies)
 
