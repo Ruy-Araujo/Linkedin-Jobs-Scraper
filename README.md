@@ -1,46 +1,56 @@
+[![pt-br](https://img.shields.io/badge/lang-PT--BR-yellowgreen?style=for-the-badge&logo=googletranslate&logoColor=4285F4)](/README.pt-br.md)
+
 # Linkedin Jobs Scraper
 
-Este repositório contém um scraper de empregos do LinkedIn escrito em Python que extrai dados de vagas de emprego e salva em arquivos JSON.
+This repository contains a LinkedIn jobs scraper written in Python that extracts job data and saves it in JSON files.
 
-## Como usar
-1. Clone o repositório para a sua máquina local:
-    ```bash
+## How to use
+
+1. Clone the repository to your local machine:
+
+```bash
     git clone https://github.com/Ruy-Araujo/Linkedin-Jobs-Scraper
-    ```
-2. Instale as dependências:
-    ```bash
+```
+
+2. Install the dependencies:
+
+```bash
     cd Linkedin-Jobs-Scraper
     pip install -r requirements.txt
-    ```
-3. Configure o arquivo settings.py:  
+```
 
-    1. Preencha os parametros _LINKEDIN_COOKIES_ e _CSRF_TOKEN_ com os da plataforma vide [como gerar os cookies e o csrf-token](#cookies)
+3. Configure the settings.py file:
 
-    2. O campo _KEYWORDS_ é uma string com as palavras-chave que serão utilizadas para filtrar as vagas de emprego.  
+    1. Fill in the *LINKEDIN_COOKIES* and *CSRF_TOKEN* parameters with those from the platform see [how to generate cookies and csrf-token](#cookies)
 
-    3. O campo _LOCATION_ é uma string com o local onde as vagas serão buscadas.
+    2. The *KEYWORDS* field is a string with the keywords that will be used to filter job listings.
 
-4. Excute o script main.py
-    ```python3
+    3. The *LOCATION* field is a string with the location where the job listings will be searched.
+
+4. Run the main.py script
+
+```python3
     python main.py
-    ```
+```
 
-O scraper irá extrair dados das vagas de emprego do LinkedIn Jobs e salvar em um arquivo JSON no diretório do projeto.
+The scraper will extract job data from LinkedIn Jobs and save it in a JSON file in the project directory.
 
+## <a id="cookies"></a>How to generate LinkedIn cookies
 
-## <a id="cookies"></a>Como gerar os cookies do LinkedIn
-1. Acesse o site [LinkedIn Jobs](https://www.linkedin.com/jobs/).
+1. Access the LinkedIn Jobs website.
 
-2. Abra o console do navegador (F12) e vá para a aba Network.
+2. Open the browser console (F12) and go to the Network tab.
 
-3. Na aba Network aperte CTRL+F para realizar uma busca e digite "csrf-token".
+3. In the Network tab, press CTRL+F to perform a search and type "csrf-token".
 
-4. Selecione qualquer item e verá os campos "cookie" e "csrf-token" no cabeçalho da requisição.
+4. Select any item and you will see the "cookie" and "csrf-token" fields in the request header.
 
-## Detalhes técnicos
-O scraper usa o framework [Scrapy](https://scrapy.org/) para fazer o parsing do HTML da página de empregos do LinkedIn e extrair informações como título da vaga, nome da empresa, localização, descrição da vaga e data de publicação.
+## Technical details
 
-Os dados brutos estão disponiveis [aqui](data/)
+The scraper uses the Scrapy framework to parse the HTML of the LinkedIn jobs page and extract information such as job title, company name, location, job description, and date of publication.
 
-## Contribuindo
-Se você quiser contribuir para este projeto, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+The raw data is available [here](data/)
+
+## Contributing
+
+If you want to contribute to this project, feel free to open an issue or send a pull request.
