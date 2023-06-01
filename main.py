@@ -1,5 +1,6 @@
 import uuid
 import json
+import argparse
 
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
@@ -9,14 +10,20 @@ from twisted.internet import task
 from linkedin_jobs_scraper.spiders.jobs import JobsScraper
 from linkedin_jobs_scraper.spiders.jobs_infos import JobsInfosScraper
 
+# Arguments
+parser = argparse.ArgumentParser(description='This is a LinkedIn jobs scraper')
+parser.add_argument('--keywords', type=str, help='string with the keywords that will be used to filter job listings')
+parser.add_argument('--location', type=str, help='string with the location where the job listings will be searched')
+parser.add_argument('--pastdays', type=int, help='integer with the number of days to look back for job listings')
+
+# Spider settings
+configure_logging()
 base_settings = {
     "FEED_FORMAT": "json",
     "FEED_EXPORTERS": {
         "json": "scrapy.exporters.JsonItemExporter",
     },
 }
-
-configure_logging()
 
 
 def get_ids(pipeline):
@@ -26,11 +33,18 @@ def get_ids(pipeline):
 
 
 def get_infos(result, runner):
+    args = parser.parse_args()
     settings = get_project_settings()
-    location = settings.get("LOCATION")
-    keywords = settings.get("KEYWORDS")
-    runner.settings.update({**base_settings,
-                            "FEED_URI": f"data/{location}/{keywords}/%(time)s_jobs_data.json"})
+    location = args.location if args.location else settings.get("LOCATION")
+    keywords = args.keywords if args.keywords else settings.get("KEYWORDS")
+    past_days = args.pastdays if args.pastdays else settings.get("PAST_DAYS")
+    runner.settings.update({
+        **base_settings,
+        "FEED_URI": f"data/{location}/{keywords}/%(time)s_jobs_data.json",
+        "KEYWORDS": keywords,
+        "LOCATION": location,
+        "PAST_DAYS": past_days,
+    })
 
     return runner.crawl(JobsInfosScraper, jobs_ids=result)
 

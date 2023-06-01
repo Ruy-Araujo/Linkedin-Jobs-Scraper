@@ -56,4 +56,4 @@ PAST_DAYS = 1
 # Logging
 LOG_LEVEL = "INFO"
 LOG_FORMAT = "%(levelname)s: %(message)s"
-LOG_FILE = f"logs/{datetime.now().isoformat()}_log.txt"
+LOG_FILE = f"tmp/{datetime.now().isoformat()}_log.txt"
