@@ -1,5 +1,6 @@
 import os
 import dotenv
+from datetime import datetime
 
 dotenv.load_dotenv()
 
@@ -48,6 +49,11 @@ LINKEDIN_COOKIES = os.getenv("LINKEDIN_COOKIES")
 CSRF_TOKEN = os.getenv("CSRF_TOKEN")
 
 # Search parameters
-KEYWORDS = 'Data Engineer'
-LOCATION = 'Canada'
+KEYWORDS = "Data Engineer"
+LOCATION = "Canada"
 PAST_DAYS = 1
+
+# Logging
+LOG_LEVEL = "INFO"
+LOG_FORMAT = "%(levelname)s: %(message)s"
+LOG_FILE = f"logs/{datetime.now().isoformat()}_log.txt"
