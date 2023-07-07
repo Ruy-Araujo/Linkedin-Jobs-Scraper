@@ -20,15 +20,19 @@ parser.add_argument('--pastdays', type=int, help='integer with the number of day
 configure_logging()
 base_settings = {
     "FEED_FORMAT": "json",
-    "FEED_EXPORTERS": {
-        "json": "scrapy.exporters.JsonItemExporter",
-    },
+    "FEED_EXPORTERS": {"json": "scrapy.exporters.JsonItemExporter"},
 }
 
 
 def get_ids(pipeline):
+    args = parser.parse_args()
     settings = get_project_settings()
-    settings.update({**base_settings, "FEED_URI": f"tmp/{pipeline}.json"})
+    settings.update({**base_settings,
+                     "FEED_URI": f"tmp/{pipeline}.json",
+                     "KEYWORDS": args.keywords if args.keywords else settings.get("KEYWORDS"),
+                     "LOCATION": args.location if args.location else settings.get("LOCATION"),
+                     "PAST_DAYS": args.pastdays if args.pastdays else settings.get("PAST_DAYS"),
+                     })
     return settings
 
 
@@ -37,13 +41,9 @@ def get_infos(result, runner):
     settings = get_project_settings()
     location = args.location if args.location else settings.get("LOCATION")
     keywords = args.keywords if args.keywords else settings.get("KEYWORDS")
-    past_days = args.pastdays if args.pastdays else settings.get("PAST_DAYS")
     runner.settings.update({
         **base_settings,
         "FEED_URI": f"data/{location}/{keywords}/%(time)s_jobs_data.json",
-        "KEYWORDS": keywords,
-        "LOCATION": location,
-        "PAST_DAYS": past_days,
     })
 
     return runner.crawl(JobsInfosScraper, jobs_ids=result)
