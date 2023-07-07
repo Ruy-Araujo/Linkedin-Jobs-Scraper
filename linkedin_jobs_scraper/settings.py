@@ -20,7 +20,7 @@ ROBOTSTXT_OBEY = False
 RETRY_ENABLED = True
 RETRY_TIMES = 2  # initial response + 2 retries = 3 requests
 RETRY_WAIT_TIME = 60
-RETRY_HTTP_CODES = [400]
+RETRY_HTTP_CODES = [400, 429]
 RETRY_PRIORITY_ADJUST = -1
 
 # Configure a delay for requests for the same website (default: 0)

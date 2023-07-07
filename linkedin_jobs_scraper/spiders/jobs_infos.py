@@ -24,6 +24,10 @@ class JobsInfosScraper(scrapy.Spider):
         yield scrapy.Request(url=self.url + next(self.job_id), callback=self.parse, cookies=self.cookies, headers=self.headers)
 
     def parse(self, response):
+        if response.status == 400:
+            self.logger.error(f"Invalid credentials, status code: {response.status}")
+            raise CloseSpider("Invalid credentials, scrapy stoped...")
+
         json_response = response.json()
 
         item = ItemLoader(item=JobsInfosItem())
