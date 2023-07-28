@@ -2,7 +2,7 @@
 .venv
 .env
 
-# Unessesary files
+# Unnecessary files
 .vscode
 __pycache__
 tmp/
