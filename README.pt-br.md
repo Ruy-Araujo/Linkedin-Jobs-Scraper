@@ -21,21 +21,24 @@ Este repositório contém um scraper de empregos do LinkedIn escrito em Python q
 
 3. Configure o arquivo exemple.env:  
 
-    1. Preencha os parametros _LINKEDIN_COOKIES_ e _CSRF_TOKEN_ com os da plataforma vide [como gerar os cookies e o csrf-token](#cookies)
+    1. Preencha os parametros **LINKEDIN_COOKIES** e **CSRF_TOKEN** com os da plataforma vide [como gerar os cookies e o csrf-token](#cookies)
 
-    2. O campo _KEYWORDS_ é uma string com as palavras-chave que serão utilizadas para filtrar as vagas de emprego.  
-
-    3. O campo _LOCATION_ é uma string com o local onde as vagas serão buscadas.
-
-4. Excute o script main.py
+    2. Excute o script main.py passando como argumento os filtros de busca:
 
     ```python3
-    python main.py
+    python main.py --keywords 'Engenheiro de dados' --location 'Brazil' --pastdays 15
     ```
+
+    Parâmetros:  
+    `keywords`: Palavras-chave para filtrar as vagas de emprego.  
+    `location`: Localização onde as vagas serão buscadas.  
+    `pastdays`: Número de dias para buscar vagas de emprego.  
 
 O scraper irá extrair dados das vagas de emprego do LinkedIn Jobs e salvar em um arquivo JSON no diretório do projeto.
 
 ## <a id="cookies"></a>Como gerar os cookies do LinkedIn
+
+<img src="media/get_cookies.gif" alt="tutorial">
 
 1. Acesse o site [LinkedIn Jobs](https://www.linkedin.com/jobs/).
 
@@ -44,6 +47,14 @@ O scraper irá extrair dados das vagas de emprego do LinkedIn Jobs e salvar em u
 3. Na aba Network aperte CTRL+F para realizar uma busca e digite "csrf-token".
 
 4. Selecione qualquer item e verá os campos "cookie" e "csrf-token" no cabeçalho da requisição.
+
+5. Renomei o arquivo exemple.env para .env e preencha os campos **LINKEDIN_COOKIES** e **CSRF_TOKEN** com os valores obtidos no passo anterior.
+Ex.
+
+    ```env
+    LINKEDIN_COOKIES="seus_cookies"
+    CSRF_TOKEN=ajax:123456789
+    ```
 
 ## Detalhes técnicos
 
